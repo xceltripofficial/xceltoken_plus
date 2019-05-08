@@ -60,6 +60,25 @@ contract("XcelLab", accounts => {
 
     });
 
+    it('Burn should work from new owner', async function(){
+      let {logs} = await this.token.transferOwnership(accounts[6]);
+      expectEvent.inLogs(logs, 'OwnershipTransferred', { previousOwner: this.owner, newOwner: accounts[6] });
+
+      //now do a burn from new owner
+
+      let newOwner = await this.token.owner();
+      console.log('newOwner :' + newOwner);
+      let newlogs = await this.token.transfer(newOwner, this.burnAmount,{ from: accounts[1]});
+      expectEvent.inLogs(newlogs.logs, 'Transfer', { from: accounts[1], to: newOwner  , value: this.burnAmount });
+      (await this.token.balanceOf(newOwner)).should.be.bignumber.equal(this.burnAmount);
+      let burnLogs  = await this.token.burn(this.burnAmount, { from: newOwner });
+      (await this.token.balanceOf(newOwner)).should.be.bignumber.equal('0');
+      (await this.token.totalSupply()).should.be.bignumber.equal(testConst.totalSupply.sub(this.burnAmount));
+      expectEvent.inLogs(burnLogs.logs, 'Transfer', { from: newOwner, to: constants.ZERO_ADDRESS, value: this.burnAmount });
+
+
+
+    });
   });
 
 });
