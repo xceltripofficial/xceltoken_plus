@@ -51,10 +51,9 @@ contract("XcelLab", accounts => {
         //expectEvent.inLogs(unlockLogs, 'UnlockedAccount', { _targetAddress: accounts[6]});
         assert.equal(await this.token.isAddressLocked(accounts[6]), false, 'Should NOT be in locked state');
 
-        //transger should work
+        //transfer should work
         const {xferLogs} = await this.token.transfer(accounts[7], new BN(1000),{ from: accounts[6]});
         (await this.token.balanceOf(accounts[7])).should.be.bignumber.equal(new BN(1000));
-        console.log(xferLogs);
 
     });
 
