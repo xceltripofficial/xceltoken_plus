@@ -646,7 +646,7 @@ contract XcelLab is ERC20Detailed, ERC20Pausable, ERC20Burnable, Ownable {
   address public loyaltyAddress;
   address public reserveAddress;
 
-//safety measure , disputes are visible here and is expected to resolve via comnuty concensus.
+//safety measure , disputes are visible here and is expected to resolve via community concensus.
   mapping(address => bool) internal lockedAccounts;
 
 
