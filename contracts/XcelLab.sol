@@ -101,7 +101,7 @@ contract XcelLab is ERC20Detailed, ERC20Pausable, ERC20Burnable, Ownable {
   function lockAccount(address _targetAddress) external onlyOwner returns(bool){
       require(_targetAddress != address(0));
       require(!lockedAccounts[_targetAddress]);
-      //can't lockyourself out
+      //can't lock yourself out
       require(owner() != _targetAddress);
       lockedAccounts[_targetAddress] = true;
       emit LockedAccount(_targetAddress);

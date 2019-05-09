@@ -640,7 +640,11 @@ contract XcelLab is ERC20Detailed, ERC20Pausable, ERC20Burnable, Ownable {
   // Reserve supply 15%
   uint256 public reserveSupply = 7.5 * (10**9) * (10**18);
 
+  address public teamAddress;
   address public publicSaleAddress;
+  address public foundationAddress;
+  address public loyaltyAddress;
+  address public reserveAddress;
 
 //safety measure , disputes are visible here and is expected to resolve via comnuty concensus.
   mapping(address => bool) internal lockedAccounts;
@@ -659,7 +663,12 @@ contract XcelLab is ERC20Detailed, ERC20Pausable, ERC20Burnable, Ownable {
       //mint all tokens to contract owner address;
       _mint(msg.sender, INITIAL_SUPPLY);
 
+      teamAddress = _teamAddress;
       publicSaleAddress = _publicSaleAddress;
+      foundationAddress = _foundationAddress;
+      loyaltyAddress = _loyaltyAddress;
+      reserveAddress = _reserveAddress;
+
       transfer(_teamAddress, teamSupply);
       transfer(_publicSaleAddress, publicSaleSupply);
       transfer(_foundationAddress,foundationSupply);
@@ -707,7 +716,7 @@ contract XcelLab is ERC20Detailed, ERC20Pausable, ERC20Burnable, Ownable {
   function lockAccount(address _targetAddress) external onlyOwner returns(bool){
       require(_targetAddress != address(0));
       require(!lockedAccounts[_targetAddress]);
-      //can't lockyourself out
+      //can't lock yourself out
       require(owner() != _targetAddress);
       lockedAccounts[_targetAddress] = true;
       emit LockedAccount(_targetAddress);
